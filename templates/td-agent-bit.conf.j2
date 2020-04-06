@@ -28,8 +28,8 @@
     # ============
     # Specify an optional 'Parsers' configuration file
     Parsers_File parsers.conf
-    {% for parsers_file in fluentbit_service_custom_parsers_file %}
-    Parsers_File {{ parsers_file }}
+    {% for parsers_file in fluentbit_service_custom_parsers_file -%}
+    Parsers_File {{ parsers_file.name }}.conf
     {% endfor %}
 
     Plugins_File plugins.conf
@@ -47,6 +47,14 @@
     {{ key }} {{ input[key] }}
 {% endfor %}
 {% endfor %}
+
+{% for filter in fluentbit_filters %}
+[FILTER]
+{% for key in filter %}
+    {{ key }} {{ filter[key] }}
+{% endfor %}
+{% endfor %}
+
 
 {% for input in fluentbit_outputs %}
 [OUTPUT]
