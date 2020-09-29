@@ -16,9 +16,9 @@
   notify: Restart Fluentbit service
 
 - name: Configure | Source additional td-agent-bit parsers
-  copy:
-    content: "{{ item.template }}"
-    dest: "/etc/td-agent-bit/{{item.name}}.conf"
+  template:
+    src: "{{ item.template }}"
+    dest: "/etc/td-agent-bit/{{ item.name }}"
     mode: 0644
   with_items: "{{ fluentbit_service_custom_parsers_file }}"
   when: fluentbit_service_custom_parsers_file | length >0
